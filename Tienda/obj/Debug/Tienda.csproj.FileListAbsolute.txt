@@ -81,3 +81,9 @@ C:\Users\usuario\source\repos\Tienda\Tienda\obj\Debug\Tienda.csproj.CoreCompileI
 C:\Users\usuario\source\repos\Tienda\Tienda\obj\Debug\Tienda.csproj.CopyComplete
 C:\Users\usuario\source\repos\Tienda\Tienda\obj\Debug\Tienda.dll
 C:\Users\usuario\source\repos\Tienda\Tienda\obj\Debug\Tienda.pdb
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaEntidad.dll
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaNegocio.dll
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaDatos.dll
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaEntidad.pdb
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaNegocio.pdb
+C:\Users\usuario\source\repos\Tienda\Tienda\bin\CapaDatos.pdb

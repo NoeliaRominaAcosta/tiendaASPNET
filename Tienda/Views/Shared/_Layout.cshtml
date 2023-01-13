@@ -27,7 +27,7 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Usuario</a></li>
-                    <li><a class="dropdown-item" href="#!">Historial</a></li>
+            
                     <li><hr class="dropdown-divider" /></li>
                     <li><a class="dropdown-item" href="#!">Salir</a></li>
                 </ul>
@@ -39,26 +39,26 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <div class="sb-sidenav-menu-heading">Resumen</div>
+                        <a class="nav-link" href="@Url.Action("Index","Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="@Url.Action("Usuarios","Home")">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Usuarios
                         </a>
 
                         <div class="sb-sidenav-menu-heading">Mantenimiento</div>
-                        <a class="nav-link" href="charts.html">
+                        <a class="nav-link" href="@Url.Action("Categoria","Mantenedor")">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Categorias
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="@Url.Action("Marca","Mantenedor")">
                             <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>
                             Marcas
                         </a>
-                        <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="@Url.Action("Producto","Mantenedor")">
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>
                             Productos
                         </a>
