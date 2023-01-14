@@ -1,7 +1,52 @@
 ﻿
 @{
     ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Usuarios</h2>
 
+<ol class="breadcrumb mb-4 mt-4">
+    <li class="breadcrumb-item"><a href="index.html">Resumen</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-user me-1"></i>
+    </div>
+    <div class="card-body">
+       <div class="row">
+           <div class="col-12 mb-2">
+               <button type="button" class="btn btn-success">Crear nuevo</button>
+           </div>
+           <hr />
+
+           <table id="tabla" class="display cell-border" style="width:100%">
+               <thead>
+                   <tr>
+                       <th>Nombres</th>
+                       <th>Apellidos</th>
+                       <th>Correo</th>
+                       <th>Activo</th>
+                   </tr>
+               </thead>
+           </table>
+       </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        jQuery.ajax({
+            //call the controller with url
+            url: '@Url.Action("ListarUsuarios","Home")',
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                debugger;
+                console.log(data)
+            }
+        })
+    </script>
+    }
