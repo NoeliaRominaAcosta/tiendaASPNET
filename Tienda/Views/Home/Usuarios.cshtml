@@ -15,38 +15,129 @@
         <i class="fas fa-user me-1"></i>
     </div>
     <div class="card-body">
-       <div class="row">
-           <div class="col-12 mb-2">
-               <button type="button" class="btn btn-success">Crear nuevo</button>
-           </div>
-           <hr />
+        <div class="row">
+            <div class="col-12 mb-2">
+                <button type="button" class="btn btn-success" onclick="OpenModal()">Crear nuevo</button>
+            </div>
+            <hr />
 
-           <table id="tabla" class="display cell-border" style="width:100%">
-               <thead>
-                   <tr>
-                       <th>Nombres</th>
-                       <th>Apellidos</th>
-                       <th>Correo</th>
-                       <th>Activo</th>
-                   </tr>
-               </thead>
-           </table>
-       </div>
+            <table id="tabla" class="display cell-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Correo</th>
+                        <th>Activo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body g-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="txtnombres" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" id="txtnombres" placeholder="Nombres">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtapellidos" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="txtapellidos" placeholder="Apellidos">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="txtemail" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="txtemail" placeholder="email@ejemplo.com">
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="cboactivo" class="form-label">Activo</label>
+                        <select class="form-select" id="cboactivo">
+                            <option selected>Elegir</option>
+                            <option value="1">SI</option>
+                            <option value="0">NO</option>
+
+                        </select>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
-        jQuery.ajax({
-            //call the controller with url
-            url: '@Url.Action("ListarUsuarios","Home")',
-            type: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                debugger;
-                console.log(data)
+        function OpenModal(json) {
+            $("#txtnombres").val("")
+            $("#txtapellidos").val("")
+            $("#txtemail").val("")
+            $("#cboactivo").val(1)
+
+            if (json != null) {
+                $("#txtnombres").val(json.Nombres)
+                $("#txtapellidos").val(json.Apellidos)
+                $("#txtemail").val(json.Correo)
+                $("#cboactivo").val(json.Activo == true ? 1 : 0)
             }
-        })
+            $("#FormModal").modal("show");
+        }
+
+
+     
+
+
+      var tabladata = $("#tabla").DataTable({
+            responsive: true,
+            ordering: false,
+            "ajax": {
+                //ajax attributes
+                url: '@Url.Action("ListarUsuarios","Home")',
+                type: "GET",
+                dataType: "json"
+            },
+            "columns": [
+                { "data": "Nombres" },
+                { "data": "Apellidos" },
+                { "data": "Correo" },
+                {
+                    "data": "Activo", "render": function (value) {
+                        if (value = true) {
+                            return '<span class="badge bg-success">SI</span>'
+                        } else {
+                            return '<span class=""badge bg-danger">SI</span>'
+                        }
+                    }
+                },
+                {
+                    "defaultContent": '<button type="button" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pen me-1"></i></button>' +
+                        '<button type="button" class="btn btn-danger btn-sm ms-2"><i class="fas fa-trash me-1"></i></button>',
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "90px"
+                }
+            ],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-ES.json"
+            }
+        });
+        $("#tabla tbody").on("click", '.btn-edit', function () {
+            var selected = $(this).closest("tr");
+            var datauser = tabladata.row(selected).data();
+            OpenModal(datauser);
+
+        });
     </script>
-    }
+}
