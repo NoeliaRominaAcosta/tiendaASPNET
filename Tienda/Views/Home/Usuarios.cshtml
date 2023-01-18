@@ -46,6 +46,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body g-2">
+                <input id="IdUsuario" type="hidden" value="0"/>
                 <div class="row">
                     <div class="col-sm-6">
                         <label for="txtnombres" class="form-label">Nombres</label>
@@ -73,20 +74,24 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="save()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
 @section scripts{
     <script>
+        var selected;
+        var tabladata;
         function OpenModal(json) {
             $("#txtnombres").val("")
+            $("#IdUsuario").val(0)
             $("#txtapellidos").val("")
             $("#txtemail").val("")
             $("#cboactivo").val(1)
 
             if (json != null) {
+                $("#IdUsuario").val(json.IdUsuario)
                 $("#txtnombres").val(json.Nombres)
                 $("#txtapellidos").val(json.Apellidos)
                 $("#txtemail").val(json.Correo)
@@ -95,11 +100,7 @@
             $("#FormModal").modal("show");
         }
 
-
-     
-
-
-      var tabladata = $("#tabla").DataTable({
+        tabladata = $("#tabla").DataTable({
             responsive: true,
             ordering: false,
             "ajax": {
@@ -134,10 +135,30 @@
             }
         });
         $("#tabla tbody").on("click", '.btn-edit', function () {
-            var selected = $(this).closest("tr");
+             selected = $(this).closest("tr");
             var datauser = tabladata.row(selected).data();
             OpenModal(datauser);
+            console.log(datauser)
 
         });
+
+        function save() {
+            var User = {
+                Activo: $("#cboactivo").val() == 1 ? true: false,
+                Apellidos: $("#txtapellidos").val(),
+                Nombres: $("#txtnombres").val(),
+                Correo: $("#txtemail").val(),
+                IdUsuario: $("#IdUsuario").val()
+
+            }
+            console.log(User)
+            if (User.IdUsuario == 0) {
+                tabladata.row.add(User).draw(false );
+            } else {
+                tabladata.row(selected).data(User).draw(false);
+                
+            }
+            $("#FormModal").modal("hide");
+        }
     </script>
 }
