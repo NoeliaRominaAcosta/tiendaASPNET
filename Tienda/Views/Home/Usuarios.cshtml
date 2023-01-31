@@ -1,7 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "Usuarios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+                /**/
+
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Usuarios";
+                Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -45,20 +51,20 @@
                 <h5 class="modal-title" id="exampleModalLabel">Crear Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body g-2">
-                <input id="IdUsuario" type="hidden" value="0"/>
-                <div class="row">
+            <div class="modal-body">
+                <input id="IdUsuario" type="hidden" value="0" />
+                <div class="row  g-2">
                     <div class="col-sm-6">
                         <label for="txtnombres" class="form-label">Nombres</label>
-                        <input type="text" class="form-control" id="txtnombres" placeholder="Nombres">
+                        <input type="text" class="form-control" id="txtnombres" placeholder="Nombres" autocomplete="off">
                     </div>
                     <div class="col-sm-6">
                         <label for="txtapellidos" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="txtapellidos" placeholder="Apellidos">
+                        <input type="text" class="form-control" id="txtapellidos" placeholder="Apellidos"  autocomplete="off">
                     </div>
                     <div class="col-sm-6">
                         <label for="txtemail" class="form-label">Correo</label>
-                        <input type="email" class="form-control" id="txtemail" placeholder="email@ejemplo.com">
+                        <input type="email" class="form-control" id="txtemail" placeholder="email@ejemplo.com" autocomplete="off">
                     </div>
                     <div class="col-sm-6">
                         <label for="cboactivo" class="form-label">Activo</label>
@@ -69,7 +75,15 @@
 
                         </select>
                     </div>
-                   
+
+                </div>
+                <div class="row mt-2" >
+                    <div class="col-12">
+                        <div  id="error"  class="alert alert-danger" role="alert">
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -80,7 +94,13 @@
     </div>
 </div>
 @section scripts{
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
     <script>
+
+
         var selected;
         var tabladata;
         function OpenModal(json) {
@@ -88,6 +108,7 @@
             $("#IdUsuario").val(0)
             $("#txtapellidos").val("")
             $("#txtemail").val("")
+            $("#error").hide();
             $("#cboactivo").val(1)
 
             if (json != null) {
@@ -138,7 +159,7 @@
              selected = $(this).closest("tr");
             var datauser = tabladata.row(selected).data();
             OpenModal(datauser);
-            console.log(datauser)
+           
 
         });
 
@@ -148,17 +169,59 @@
                 Apellidos: $("#txtapellidos").val(),
                 Nombres: $("#txtnombres").val(),
                 Correo: $("#txtemail").val(),
-                IdUsuario: $("#IdUsuario").val()
+                IdUsuario: $("#IdUsuario").val(),
+                Reestablecer: true
 
             }
-            console.log(User)
-            if (User.IdUsuario == 0) {
-                tabladata.row.add(User).draw(false );
-            } else {
-                tabladata.row(selected).data(User).draw(false);
-                
-            }
-            $("#FormModal").modal("hide");
+          
+           
+            jQuery.ajax({
+                url: '@Url.Action("GuardarUsuario", "Home")',
+                type: "POST",
+                data: JSON.stringify({ objeto: User }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                   
+                    //new user
+                    if (User.IdUsuario == 0) {
+                        if (data.resultado != 0) {
+                            User.IdUsuario = data.resultado;
+                            tabladata.row.add(User).draw(false);
+                            $("#FormModal").modal("hide");
+                           
+                        } else {
+                          
+                            $("#error").show();
+                            $("#error").text(data.mensaje);
+
+                        }
+
+                    } else {
+                         //update user
+                        if (data.resultado) {
+                            tabladata.row(selected).data(User).draw(false);
+                            selected = null;
+                            $("#FormModal").modal("hide");
+                       
+                        } else {
+                            $("#error").show();
+                            $("#error").text(data.mensaje);
+                        }
+                      
+                        
+
+                    }
+                },
+                beforeSend: function () {
+
+                }
+
+            });
+
+
+
+
         }
     </script>
 }
