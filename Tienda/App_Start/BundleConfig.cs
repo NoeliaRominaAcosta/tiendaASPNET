@@ -14,7 +14,9 @@ namespace Tienda
                        "~/Scripts/scripts.js",
                        "~/Scripts/DataTables/jquery.dataTables.js",
                        "~/Scripts/DataTables/dataTables.responsive.js",
-                       "~/Scripts/fontawesome/all.min.js"
+                        "~/Scripts/loadingoverlay/loadingoverlay.min.js",
+                       "~/Scripts/fontawesome/all.min.js",
+                       "~/Scripts/scripts.js"
                        ));
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
             //            "~/Scripts/jquery.validate*"));

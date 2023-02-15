@@ -1,13 +1,13 @@
 ﻿
 @{
-                /**/
+    /**/
 
-                /**/
+    /**/
 
-                /**/
+    /**/
 
-                ViewBag.Title = "Usuarios";
-                Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label for="txtapellidos" class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" id="txtapellidos" placeholder="Apellidos"  autocomplete="off">
+                        <input type="text" class="form-control" id="txtapellidos" placeholder="Apellidos" autocomplete="off">
                     </div>
                     <div class="col-sm-6">
                         <label for="txtemail" class="form-label">Correo</label>
@@ -77,9 +77,9 @@
                     </div>
 
                 </div>
-                <div class="row mt-2" >
+                <div class="row mt-2">
                     <div class="col-12">
-                        <div  id="error"  class="alert alert-danger" role="alert">
+                        <div id="error" class="alert alert-danger" role="alert">
 
                         </div>
                     </div>
@@ -97,6 +97,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+ 
 
     <script>
 
@@ -159,7 +161,7 @@
              selected = $(this).closest("tr");
             var datauser = tabladata.row(selected).data();
             OpenModal(datauser);
-           
+
 
         });
 
@@ -173,8 +175,8 @@
                 Reestablecer: true
 
             }
-          
-           
+
+
             jQuery.ajax({
                 url: '@Url.Action("GuardarUsuario", "Home")',
                 type: "POST",
@@ -182,19 +184,19 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                   
+                    $(".modal-body").LoadingOverlay("show");
                     //new user
                     if (User.IdUsuario == 0) {
                         if (data.resultado != 0) {
                             User.IdUsuario = data.resultado;
                             tabladata.row.add(User).draw(false);
                             $("#FormModal").modal("hide");
-                           
-                        } else {
-                          
-                            $("#error").show();
-                            $("#error").text(data.mensaje);
 
+                        } else {
+
+
+                            $("#error").text(data.mensaje);
+                            $("#error").show();
                         }
 
                     } else {
@@ -203,18 +205,28 @@
                             tabladata.row(selected).data(User).draw(false);
                             selected = null;
                             $("#FormModal").modal("hide");
-                       
+
                         } else {
-                            $("#error").show();
+
                             $("#error").text(data.mensaje);
+                            $("#error").show();
                         }
-                      
-                        
+
+
 
                     }
                 },
+                error: function (error) {
+                    $(".modal-body").LoadingOverlay("show");
+                    $("#error").text("error ajax");
+                    $("#error").show();
+                },
                 beforeSend: function () {
-
+                    $(".modal-body").LoadingOverlay("show", {
+                        imageResizeFactor: 2,
+                        text: "cargando...",
+                        size: 14
+                    });
                 }
 
             });
