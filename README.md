@@ -1,7 +1,7 @@
 
 # Tienda
 
-Una tienda online basada en ASP.NET, Bootstrap, CSS, y MVC, centrada principalmente en la funcionalidad del carrito de compras.
+Una tienda online basada en ASP.NET, Bootstrap, CSS, y MVC, el cual utiliza una base de datos para almacenar la información de los productos y los clientes.
 Una práctica formativa como parte de mi aprendizaje del lenguaje C#
 
 ## License
@@ -9,21 +9,42 @@ Una práctica formativa como parte de mi aprendizaje del lenguaje C#
 [MIT](https://choosealicense.com/licenses/mit/)
 
 
-## Run Locally
+## Requisitos
+Antes de utilizar este proyecto, es necesario tener instalado lo siguiente:
 
-Clone the project
+Visual Studio 2019 o superior.
+.NET Core 3.1 o superior.
+SQL Server 2016 o superior.
+
+## Instalación
+
+Para instalar este proyecto, sigue los siguientes pasos:
 
 ```bash
-  git clone https://github.com/NoeliaRominaAcosta/tiendaASPNET
+Clona este repositorio en tu máquina local.
+Abre el archivo Tienda.sln con Visual Studio.
+Abre la consola de NuGet y ejecuta el comando Update-Database para crear la base de datos.
+Ejecuta el proyecto.
 ```
+## Uso
+Una vez que tengas el proyecto instalado, podrás utilizarlo para lo siguiente:
 
+Ver la lista de productos en la tienda.
 
-Start the server
+Agregar productos al carrito de compras.
 
-```bash
-  ctrl + f5
-```
+Realizar la compra de los productos.
 
+Ver el historial de compras.
+
+## Contribución
+Si deseas contribuir con este proyecto, puedes hacer lo siguiente:
+
+Haz un "fork" de este repositorio.
+Haz tus cambios en tu repositorio "fork".
+Crea un "pull request" para que tus cambios sean revisados y, en su caso, integrados al proyecto.
+Licencia
+Este proyecto está bajo la licencia MIT. Puedes ver los detalles de la licencia en el archivo LICENSE.
 
 ## Authors
 
